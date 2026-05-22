@@ -1,0 +1,49 @@
+*tf.nvim.txt*  Terraform navigation for Neovim
+
+==============================================================================
+CONTENTS                                               *tf.nvim-contents*
+
+1. Introduction ........................... |tf.nvim-introduction|
+2. Requirements ........................... |tf.nvim-requirements|
+3. Setup .................................. |tf.nvim-setup|
+4. Usage .................................. |tf.nvim-usage|
+5. Commands ............................... |tf.nvim-commands|
+
+==============================================================================
+1. INTRODUCTION                                    *tf.nvim-introduction*
+
+tf.nvim is a small Neovim plugin that uses Telescope to list Terraform
+resources and variables in the current buffer and jump to the selected block.
+
+==============================================================================
+2. REQUIREMENTS                                    *tf.nvim-requirements*
+
+- Neovim 0.8 or later
+- Telescope.nvim
+
+==============================================================================
+3. SETUP                                           *tf.nvim-setup*
+
+Add the following to your Neovim configuration:
+
+>
+  require('tfnvim')
+<
+
+==============================================================================
+4. USAGE                                           *tf.nvim-usage*
+
+Open a Terraform file and run |:TFResources| to list resource blocks or
+|:TFVariables| to list variable blocks in the current buffer. Selecting an
+entry jumps to that block.
+
+==============================================================================
+5. COMMANDS                                        *tf.nvim-commands*
+
+:TFResources                                       *:TFResources*
+  List Terraform resources in the current buffer using Telescope.
+
+:TFVariables                                      *:TFVariables*
+  List Terraform variables in the current buffer using Telescope.
+
+vim:tw=78:ts=8:ft=help:norl:
