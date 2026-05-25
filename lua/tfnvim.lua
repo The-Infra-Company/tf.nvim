@@ -1,5 +1,5 @@
-local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
+local actions = require("telescope.actions")
 local conf = require("telescope.config").values
 local finders = require("telescope.finders")
 local pickers = require("telescope.pickers")
@@ -39,6 +39,18 @@ local function list_terraform_variables()
   return list_matches('^%s*variable%s+"([^"]+)"', function(variable_name)
     return variable_name
   end)
+end
+
+--- Validate the current Terraform configuration using `terraform validate`.
+local function validate_terraform()
+  if vim.fn.executable("terraform") ~= 1 then
+    return "terraform is not installed or not on $PATH", -1
+  end
+
+  local cwd = vim.fn.expand("%:p:h")
+  local output = vim.fn.system("terraform validate -no-color", { cwd = cwd })
+  local exit_code = vim.v.shell_error
+  return output, exit_code
 end
 
 -- Display output in Telescope and handle selection
@@ -90,11 +102,22 @@ local function list_tf_variables_command()
   })
 end
 
+local function validate_terraform_command()
+  local output, exit_code = validate_terraform()
+  if exit_code == 0 then
+    vim.notify("Terraform configuration is valid.", vim.log.levels.INFO)
+  else
+    vim.notify("Terraform validation failed:\n" .. output, vim.log.levels.ERROR)
+  end
+end
+
 -- Create Neovim command
 vim.api.nvim_create_user_command("TFResources", list_tf_resources_command, { force = true })
 vim.api.nvim_create_user_command("TFVariables", list_tf_variables_command, { force = true })
+vim.api.nvim_create_user_command("TFValidate", validate_terraform_command, { force = true })
 
 return {
   list_terraform_resources = list_terraform_resources,
   list_terraform_variables = list_terraform_variables,
+  terraform_validate = validate_terraform,
 }
