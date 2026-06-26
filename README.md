@@ -1,19 +1,21 @@
 # tf.nvim
 
-A small Neovim plugin that uses Telescope to list Terraform resources and variables in the current buffer, then jump to the selected block.
+A small Neovim plugin that uses Telescope to list Terraform resources, variables, and modules in the current buffer, then jump to the selected block.
 
 ---
 
 ## What is tf.nvim?
 
-`tf.nvim` helps you move through Terraform files without manually searching for blocks. It parses the current buffer for Terraform `resource` and `variable` declarations, opens them in a Telescope picker, and jumps to the selected block.
+`tf.nvim` helps you move through Terraform files without manually searching for blocks. It parses the current buffer for Terraform `resource`, `variable`, and `module` declarations, opens them in a Telescope picker, and jumps to the selected block.
 
 ## Features
 
 - List Terraform resources from the current buffer using Telescope
 - List Terraform variables from the current buffer using Telescope
+- List Terraform modules from the current buffer using Telescope
+- Validate the current Terraform configuration
 - Jump directly to a selected block
-- Works with standard Terraform `resource "<type>" "<name>"` and `variable "<name>"` declarations
+- Works with standard Terraform `resource "<type>" "<name>"`, `variable "<name>"`, and `module "<name>"` declarations
 - Minimal setup for existing Neovim configurations
 
 ## Requirements
@@ -53,7 +55,7 @@ require("tfnvim")
 
 ## Usage
 
-The plugin provides two commands:
+The plugin provides four commands:
 
 1. `:TFResources`
    - Opens a Telescope picker listing Terraform resources in the current buffer
@@ -61,10 +63,17 @@ The plugin provides two commands:
 2. `:TFVariables`
    - Opens a Telescope picker listing Terraform variables in the current buffer
    - Selecting a variable jumps to its location in the current buffer
+3. `:TFModules`
+   - Opens a Telescope picker listing Terraform modules in the current buffer
+   - Selecting a module jumps to its location in the current buffer
+4. `:TFValidate`
+   - Runs `terraform validate -no-color`
 
 You can map the commands to key bindings for quicker access. For example:
 
 ```lua
 vim.api.nvim_set_keymap("n", "<leader>tr", ":TFResources<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>tv", ":TFVariables<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>tm", ":TFModules<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>tc", ":TFValidate<CR>", { noremap = true, silent = true })
 ```

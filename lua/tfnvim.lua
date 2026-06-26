@@ -41,6 +41,13 @@ local function list_terraform_variables()
   end)
 end
 
+--- Parse the current buffer for Terraform modules and return module name entries.
+local function list_terraform_modules()
+  return list_matches('^%s*module%s+"([^"]+)"', function(module_name)
+    return module_name
+  end)
+end
+
 --- Validate the current Terraform configuration using `terraform validate`.
 local function validate_terraform()
   if vim.fn.executable("terraform") ~= 1 then
@@ -102,6 +109,13 @@ local function list_tf_variables_command()
   })
 end
 
+local function list_tf_modules_command()
+  show_in_telescope(list_terraform_modules(), {
+    prompt_title = "Terraform Modules",
+    empty_message = "No Terraform modules found.",
+  })
+end
+
 local function validate_terraform_command()
   local output, exit_code = validate_terraform()
   if exit_code == 0 then
@@ -114,10 +128,12 @@ end
 -- Create Neovim command
 vim.api.nvim_create_user_command("TFResources", list_tf_resources_command, { force = true })
 vim.api.nvim_create_user_command("TFVariables", list_tf_variables_command, { force = true })
+vim.api.nvim_create_user_command("TFModules", list_tf_modules_command, { force = true })
 vim.api.nvim_create_user_command("TFValidate", validate_terraform_command, { force = true })
 
 return {
   list_terraform_resources = list_terraform_resources,
   list_terraform_variables = list_terraform_variables,
+  list_terraform_modules = list_terraform_modules,
   terraform_validate = validate_terraform,
 }
