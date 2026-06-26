@@ -13,7 +13,8 @@ CONTENTS                                               *tf.nvim-contents*
 1. INTRODUCTION                                    *tf.nvim-introduction*
 
 tf.nvim is a small Neovim plugin that uses Telescope to list Terraform
-resources and variables in the current buffer and jump to the selected block.
+resources, variables, and modules in the current buffer and jump to the
+selected block.
 
 ==============================================================================
 2. REQUIREMENTS                                    *tf.nvim-requirements*
@@ -33,9 +34,9 @@ Add the following to your Neovim configuration:
 ==============================================================================
 4. USAGE                                           *tf.nvim-usage*
 
-Open a Terraform file and run |:TFResources| to list resource blocks or
-|:TFVariables| to list variable blocks in the current buffer. Selecting an
-entry jumps to that block.
+Open a Terraform file and run |:TFResources| to list resource blocks,
+|:TFVariables| to list variable blocks, or |:TFModules| to list module blocks
+in the current buffer. Selecting an entry jumps to that block.
 
 ==============================================================================
 5. COMMANDS                                        *tf.nvim-commands*
@@ -45,5 +46,11 @@ entry jumps to that block.
 
 :TFVariables                                      *:TFVariables*
   List Terraform variables in the current buffer using Telescope.
+
+:TFModules                                        *:TFModules*
+  List Terraform modules in the current buffer using Telescope.
+
+:TFValidate                                      *:TFValidate*
+  Validate the current Terraform configuration.
 
 vim:tw=78:ts=8:ft=help:norl:
